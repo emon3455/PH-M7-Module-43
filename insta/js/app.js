@@ -16,7 +16,12 @@ const isLiked = (id) => {
 };
 
 const addToLiked = (id) => {
-    likedPostsId.plus(id); 
+    if(likedPostsId.includes(id)){
+      likedPostsId.pop(id);
+    }
+    else{
+      likedPostsId.push(id);
+    }
     showPosts(posts);
 };
 
@@ -53,7 +58,6 @@ const switchTab = (id) => {
 const createPost = (post) => {
     const image = post.image;
     const userImage = post.userImage;
-    console.log(post);
     const div = document.createElement( "article" );
     div.classList.add( "post" );
     div.innerHTML = `
@@ -142,10 +146,12 @@ const showPosts = (posts) => {
         const div = createPost(post);
         productsContainer.appendChild(div);
     });
+
 };
 
 const displayLikedPosts = () => {
     const likedPosts = getLikedPosts();
+    document.getElementById( "liked" ).innerHTML="";
     likedPosts.forEach((post) => {
         const div = createPost(post);
         document.getElementById( "liked" ).appendChild(div);
@@ -154,7 +160,8 @@ const displayLikedPosts = () => {
 
 const displayReportedPosts = () => {
     const reportedPosts = getReportedPosts();
-    posts.forEach((post) => {
+    document.getElementById( "reported" ).innerHTML="";
+    reportedPosts.forEach((post) => {
         const div = createPost(post);
         document.getElementById( "reported" ).appendChild(div);
     });
